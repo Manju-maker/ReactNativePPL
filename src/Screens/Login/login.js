@@ -12,6 +12,9 @@ import {connect} from 'react-redux';
 import {Styles, color, centerText} from '../style';
 
 import LoginBase from './loginBase';
+import EmailIcon from 'react-native-vector-icons/Entypo';
+import PasswordIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 //import {setUser} from '../../Redux/actions';
 
 class Login extends LoginBase {
@@ -22,34 +25,42 @@ class Login extends LoginBase {
         style={Styles.backgroundImage}>
         <View style={Styles.parent}>
           <Text style={Styles.text}>Login Form</Text>
-          <View style={[Styles.child]}>
-            <Image
-              source={require('../images/email.jpeg')}
+          <View style={[Styles.child, {alignItems: 'center'}]}>
+            <EmailIcon
               style={Styles.image}
+              name="email"
+              size={20}
+              color="red"
             />
             <TextInput
-              placeholder="email"
-              style={{flex: 1}}
+              placeholder="Enter Your Email"
+              style={Styles.textInput}
               onChangeText={text => this.handleChange('email', text)}
               onSubmitEditing={() => this.password.focus()}
               returnKeyType={'next'}
             />
           </View>
-          <View style={[Styles.child]}>
-            <Image
-              source={require('../images/password.png')}
+          <Text style={Styles.error}>{this.state.emailError}</Text>
+
+          <View style={[Styles.child, {alignItems: 'center'}]}>
+            <PasswordIcon
               style={Styles.image}
+              name="onepassword"
+              size={20}
+              color="#9ABBA"
             />
             <TextInput
-              placeholder="password"
+              placeholder="Enter Your Password"
+              style={Styles.textInput}
               secureTextEntry={true}
-              style={{flex: 1}}
               ref={ref => (this.password = ref)}
               onChangeText={text => this.handleChange('password', text)}
               returnKeyType={'done'}
               onSubmitEditing={this.handleClick}
             />
           </View>
+          <Text style={Styles.error}>{this.state.passwordError}</Text>
+
           <TouchableOpacity
             activeOpacity={0.5}
             style={[
@@ -92,7 +103,6 @@ class Login extends LoginBase {
   }
 }
 const mapStateToProps = state => {
-  console.warn('State>>>', state);
   return {state};
 };
 export default connect(mapStateToProps)(Login);

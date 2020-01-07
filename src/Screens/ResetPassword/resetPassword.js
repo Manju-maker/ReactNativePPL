@@ -9,8 +9,11 @@ import {
 } from 'react-native';
 import {Styles, color, centerText} from '../style';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import ResetPasswordBase from './resetPasswordBase';
 
-export default class ResetPassword extends Component {
+import PasswordIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+export default class ResetPassword extends ResetPasswordBase {
   render() {
     return (
       <ImageBackground
@@ -20,31 +23,44 @@ export default class ResetPassword extends Component {
           <Text style={[Styles.text, {textAlign: 'center'}]}>
             Reset Password
           </Text>
-          <View style={[Styles.child, {backgroundColor: color.white}]}>
-            <Image
-              source={require('../images/password.png')}
+          <View style={[Styles.child, {alignItems: 'center'}]}>
+            <PasswordIcon
               style={Styles.image}
+              name="onepassword"
+              size={20}
+              color="#9ABBA"
             />
             <TextInput
-              placeholder="Enter Password"
+              placeholder="Enter Your Password"
+              style={Styles.textInput}
               secureTextEntry={true}
+              ref={ref => (this.password = ref)}
               onChangeText={text => this.handleChange('newPassword', text)}
-              onSubmitEditing={() => this.password.focus()}
+              returnKeyType={'done'}
+              onSubmitEditing={this.handleClick}
             />
           </View>
-          <View style={[Styles.child, {backgroundColor: color.white}]}>
-            <Image
-              source={require('../images/password.png')}
+          <Text style={Styles.error}>{this.state.newPasswordError}</Text>
+
+          <View style={[Styles.child, {alignItems: 'center'}]}>
+            <PasswordIcon
               style={Styles.image}
+              name="onepassword"
+              size={20}
+              color="#9ABBA"
             />
             <TextInput
-              placeholder="Confirm Password"
+              placeholder="Enter Your Password"
+              style={Styles.textInput}
               secureTextEntry={true}
               ref={ref => (this.password = ref)}
               onChangeText={text => this.handleChange('confirmPassword', text)}
-              onSubmitEditing={this.handlePress}
+              returnKeyType={'done'}
+              onSubmitEditing={this.handleClick}
             />
           </View>
+          <Text style={Styles.error}>{this.state.confirmPasswordError}</Text>
+
           <Text style={Styles.error}>{this.state.errMessage}</Text>
 
           <TouchableOpacity

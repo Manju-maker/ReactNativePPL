@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Styles, color, centerText} from '../style';
 import ForgotPasswordBase from './forgotPasswordBase';
+import EmailIcon from 'react-native-vector-icons/Entypo';
 
 export default class ForgotPassword extends ForgotPasswordBase {
   render() {
@@ -22,17 +23,22 @@ export default class ForgotPassword extends ForgotPasswordBase {
             <Text style={[Styles.text, {textAlign: 'center'}]}>
               Forgot Password
             </Text>
-            <View style={[Styles.child, {backgroundColor: color.white}]}>
-              <Image
-                source={require('../images/email.jpeg')}
+            <View style={[Styles.child, {alignItems: 'center'}]}>
+              <EmailIcon
                 style={Styles.image}
+                name="email"
+                size={20}
+                color="red"
               />
               <TextInput
-                placeholder="Email"
+                placeholder="Enter Your Email"
+                style={Styles.textInput}
                 onChangeText={text => this.handleChange('email', text)}
                 onSubmitEditing={this.handlePress}
+                returnKeyType={'next'}
               />
             </View>
+            <Text style={Styles.error}>{this.state.emailError}</Text>
           </View>
           <Text style={Styles.error}>{this.state.errMessage}</Text>
 

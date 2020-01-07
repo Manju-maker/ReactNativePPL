@@ -15,7 +15,6 @@ class AppAuthenticate extends Component {
     AsyncStorage.getItem('tokenID')
       .then(data => {
         if (data != null) {
-          console.warn('>>>>---', JSON.parse(data));
           Store.dispatch(setUser(JSON.parse(data)));
           this.props.navigation.navigate('MainStack');
         } else this.props.navigation.navigate('AppComponent');
@@ -29,7 +28,6 @@ class AppAuthenticate extends Component {
   }
 }
 let mapStateToProps = state => {
-  console.warn('state>>>', state);
   return {state};
 };
 export default connect(mapStateToProps)(AppAuthenticate);

@@ -3,8 +3,15 @@ const color = {
   blue: 'blue',
   white: 'white',
   navyBlue: '#9BBA',
-  pink: 'pink',
+  pink: '#F47373',
+  grey: '#697689',
+  lightGreen: '#37D67A',
+  lightBlue: '#2CCCE4',
   yellow: '#00ffff',
+  greyBlack: '#555555',
+  lightYellow: '#dce775',
+  peach: '#ff8a65',
+  purple: '#ba68c8',
 };
 const font = {};
 const centerText = {
@@ -20,7 +27,7 @@ const Styles = StyleSheet.create({
     borderColor: 'black',
   },
   child: {
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 50,
     flexDirection: 'row',
     backgroundColor: color.white,
@@ -32,15 +39,12 @@ const Styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   image: {
-    marginTop: 10,
-    marginLeft: 20,
-    width: 20,
-    height: 20,
-    resizeMode: 'cover',
+    marginLeft: 10,
   },
+  textInput: {flex: 1, marginTop: 5},
   text: {
     textAlign: 'center',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 20,
   },
@@ -53,8 +57,9 @@ const Styles = StyleSheet.create({
   error: {
     fontWeight: 'bold',
     fontFamily: 'Cochin',
-    color: 'red',
+    color: '#d14',
     textAlign: 'center',
+    marginBottom: 10,
   },
   backgroundImage: {
     flex: 1,

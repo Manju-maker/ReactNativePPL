@@ -9,17 +9,20 @@ import {
 
 import Icon from 'react-native-vector-icons/AntDesign';
 import {Styles} from './style';
-
+import Store from '../Redux/store';
+import {LogoutUser} from '../Redux/actions';
 class Logout extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {logoutData: ''};
   }
   handleDrawers = () => {
     this.props.navigation.openDrawer();
   };
   logout = () => {
     AsyncStorage.removeItem('tokenID');
+    Store.dispatch(LogoutUser());
+
     this.props.navigation.navigate('AppComponent');
   };
   render() {
