@@ -4,7 +4,6 @@ import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import MainStack from './mainStack';
 import AppComponent from './appComponent';
 import AppAuthenticate from './AuthComponent/appAuthenticate';
-//import switchNavigator from './switchNavigator';
 
 const switchNavigator = createSwitchNavigator(
   {

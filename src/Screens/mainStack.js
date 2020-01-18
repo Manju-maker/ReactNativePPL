@@ -7,6 +7,8 @@ import SinglePost from './SinglePost/singlePost';
 import DrawerContent from './drawerContent';
 import ImageUpload from './imageUpload';
 import Profile from './Profile/profile';
+import UserDetails from './UserDetails/userDetails';
+import ChangePassword from './ChangePassword/changePassword';
 const MainStack = createStackNavigator(
   {
     Timeline: Timeline,
@@ -14,6 +16,8 @@ const MainStack = createStackNavigator(
     Logout: Logout,
     ImageUpload: ImageUpload,
     Profile: Profile,
+    UserDetails: UserDetails,
+    ChangePassword: ChangePassword,
   },
   {
     initialRouteName: 'Timeline',

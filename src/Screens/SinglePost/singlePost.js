@@ -20,7 +20,7 @@ import SinglePostBase from './SinglePostBase';
 class SinglePost extends SinglePostBase {
   render() {
     return (
-      <View style={[Styles.parent, {backgroundColor: color.yellow}]}>
+      <View style={[Styles.parent, {backgroundColor: color.lightYellow}]}>
         <ScrollView>
           <View
             style={{
@@ -57,46 +57,26 @@ class SinglePost extends SinglePostBase {
             source={{
               uri: `${config.serverURL}/${this.state.currentPost.imageupload}`,
             }}
-            style={styles.singlePostImage}
+            style={Styles.timelineImageStyle}
           />
           <View style={{flexDirection: 'row', marginBottom: 10}}>
             <TouchableOpacity
-              activeOpacity={0.5}
+              activeOpacity={1}
               onPress={() =>
                 this.handleLike(
                   this.state.currentPost._id,
                   this.state.currentPost.likes,
                 )
               }
-              style={{
-                marginLeft: 10,
-                backgroundColor: 'blue',
-                borderBottomStartRadius: 20,
-              }}>
-              <Text
-                style={{
-                  paddingHorizontal: 20,
-                  paddingVertical: 5,
-                  fontWeight: 'bold',
-                }}>
+              style={Styles.imageButtonStyle}>
+              <Text style={Styles.imageButtonText}>
                 {this.state.like.length}
                 Like
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              activeOpacity={1}
-              style={{
-                marginLeft: 10,
-                backgroundColor: 'blue',
-                borderBottomStartRadius: 20,
-              }}>
-              <Text
-                style={{
-                  paddingHorizontal: 20,
-                  paddingVertical: 5,
-                  fontWeight: 'bold',
-                }}>
+            <TouchableOpacity activeOpacity={1} style={Styles.imageButtonStyle}>
+              <Text style={Styles.imageButtonText}>
                 {this.state.commentData.length}
                 Comment
               </Text>
@@ -109,7 +89,7 @@ class SinglePost extends SinglePostBase {
                 <View>
                   <View style={{marginTop: 10}}>
                     <Text style={{fontWeight: 'bold'}}>
-                      {this.props.state.user.firstname}
+                      {this.props.state.userInfo.firstname}
                     </Text>
                   </View>
                   <View
@@ -152,6 +132,7 @@ class SinglePost extends SinglePostBase {
               backgroundColor: 'blue',
               marginHorizontal: 120,
               paddingVertical: 5,
+              marginBottom: 10,
             }}>
             <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
               Upload Comment
@@ -162,15 +143,6 @@ class SinglePost extends SinglePostBase {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  singlePostImage: {
-    borderColor: 'yellow',
-    borderWidth: 2,
-    width: Dimensions.get('window').width - 4,
-    height: Dimensions.get('window').height - 300,
-  },
-});
 
 let mapStateToProps = state => {
   return {state};

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 const color = {
   blue: 'blue',
   white: 'white',
@@ -22,9 +22,7 @@ const Styles = StyleSheet.create({
   parent: {
     flex: 1,
     justifyContent: 'center',
-    borderWidth: 2,
-    backgroundColor: color.navyBlue,
-    borderColor: 'black',
+    backgroundColor: 'transparent',
   },
   child: {
     marginBottom: 10,
@@ -48,12 +46,6 @@ const Styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  timelineText: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    fontFamily: 'Cochin',
-    textAlign: 'center',
-  },
   error: {
     fontWeight: 'bold',
     fontFamily: 'Cochin',
@@ -70,6 +62,46 @@ const Styles = StyleSheet.create({
   DrawerContent: {
     height: 800,
     backgroundColor: '#9BBA',
+  },
+  timelineText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    fontFamily: 'Cochin',
+    textAlign: 'center',
+  },
+  imageData: {
+    backgroundColor: '#999BBA',
+    height: 100,
+    borderRadius: 40,
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  timelineImageStyle: {
+    borderWidth: 2,
+    borderColor: 'black',
+    width: Dimensions.get('window').width - 10,
+    height: Dimensions.get('window').height - 400,
+    resizeMode: 'cover',
+    marginLeft: 5,
+  },
+  imageButtonText: {
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    fontWeight: 'bold',
+  },
+  imageButtonStyle: {
+    marginLeft: 10,
+    backgroundColor: color.grey,
+    borderColor: 'black',
+    borderWidth: 2,
+  },
+  drawerContentStyles: {
+    paddingLeft: 10,
+    paddingVertical: 10,
+    backgroundColor: '#9BBA',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 0.5,
+    flexDirection: 'row',
   },
 });
 export {Styles, color, centerText};

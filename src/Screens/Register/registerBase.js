@@ -9,6 +9,7 @@ import {
   isValidLastname,
   isValidUsername,
 } from '../../Utilities/validation';
+import routePath from '../customComponent';
 export default class RegisterBase extends Component {
   constructor() {
     super();
@@ -58,13 +59,16 @@ export default class RegisterBase extends Component {
     this.setState({[`${key}Error`]: valid});
   };
 
-  handlePress = e => {
+  handlePress = () => {
+    console.warn("this.state",this.state)
     if (this.checkAllMandatoryFields()) {
       let data = this.state;
       callApi('post', 'registerUser', data)
         .then(response => {
-          if (response.data.length > 0) {
-            this.props.navigation.navigate('Login');
+          console.log('Response-----', response.status);
+          if (response.status === 200) {
+            // this.props.navigation.navigate('Login');
+            routePath('Login', this.props);
           } else {
             this.setState({errMessage: 'email already registered'});
           }

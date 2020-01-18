@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import UserIcon from 'react-native-vector-icons/Entypo';
-
+import moment from 'moment';
 import {connect} from 'react-redux';
 import {Styles} from '../style';
 import config from '../../Config/config';
@@ -25,13 +25,14 @@ class Profile extends ProfileBase {
           <Icon name="bars" size={40} color="black" />
         </TouchableOpacity>
         <Text style={Styles.text}>
-          Welcome to your Profile {this.props.state.user.firstname}
+          Welcome to your Profile {this.props.state.userInfo.firstname}
         </Text>
         <ScrollView>
           {this.state.AllPosts.length > 0 &&
             this.state.AllPosts.map(post => {
               return (
                 <TouchableOpacity
+                  activeOpacity={1}
                   onPress={() => this.handleClick(post._id)}
                   style={{
                     marginBottom: 20,
@@ -46,28 +47,23 @@ class Profile extends ProfileBase {
                     <Text style={[Styles.timelineText, {fontSize: 15}]}>
                       {post.email}
                     </Text>
+                    <Text
+                      style={{position: 'absolute', right: 5, fontSize: 10}}>
+                      {moment(post.uploadTime).format('MMMM Do YYYY h:mm:ss')}
+                    </Text>
                   </View>
                   <Image
                     source={{
                       uri: `${config.serverURL}/${post.imageupload}`,
                     }}
-                    style={[styles.timelineImageStyle]}
+                    style={[Styles.timelineImageStyle]}
                   />
                   <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity
                       activeOpacity={0.5}
                       onPress={() => this.handleLike(post._id, post.likes)}
-                      style={{
-                        marginLeft: 10,
-                        backgroundColor: 'blue',
-                        borderBottomStartRadius: 20,
-                      }}>
-                      <Text
-                        style={{
-                          paddingHorizontal: 20,
-                          paddingVertical: 5,
-                          fontWeight: 'bold',
-                        }}>
+                      style={Styles.imageButtonStyle}>
+                      <Text style={Styles.imageButtonText}>
                         {post.likes.length}
                         Like
                       </Text>
@@ -80,17 +76,8 @@ class Profile extends ProfileBase {
                           id: post._id,
                         })
                       }
-                      style={{
-                        marginLeft: 10,
-                        backgroundColor: 'blue',
-                        borderBottomStartRadius: 20,
-                      }}>
-                      <Text
-                        style={{
-                          paddingHorizontal: 20,
-                          paddingVertical: 5,
-                          fontWeight: 'bold',
-                        }}>
+                      style={Styles.imageButtonStyle}>
+                      <Text style={Styles.imageButtonText}>
                         {post.comment.length}
                         Comment
                       </Text>
@@ -104,29 +91,6 @@ class Profile extends ProfileBase {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  timelineText: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    fontFamily: 'Cochin',
-    textAlign: 'center',
-  },
-  imageData: {
-    backgroundColor: '#999BBA',
-    height: 100,
-    borderRadius: 40,
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  timelineImageStyle: {
-    borderWidth: 2,
-    borderColor: 'yellow',
-    width: Dimensions.get('window').width - 4,
-    height: Dimensions.get('window').height - 300,
-    resizeMode: 'cover',
-  },
-});
 
 let mapStateToProps = state => {
   return {state};

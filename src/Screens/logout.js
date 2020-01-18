@@ -20,7 +20,8 @@ class Logout extends Component {
     this.props.navigation.openDrawer();
   };
   logout = () => {
-    AsyncStorage.removeItem('tokenID');
+    let keys = ["tokenID","userInfo"]
+    AsyncStorage.multiRemove(keys);
     Store.dispatch(LogoutUser());
 
     this.props.navigation.navigate('AppComponent');

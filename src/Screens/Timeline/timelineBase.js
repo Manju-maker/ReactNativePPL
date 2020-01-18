@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
+import {onScroll, AsyncStorage} from 'react-native';
 import {callApi} from '../../Utilities/utility';
 import {includes, orderBy} from 'lodash';
 
 export default class TimelineBase extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+   
     this.state = {
       AllPosts: [],
       filteredPost: [],
-      username: '',
+      offset: 0,
+      count: 0,
+      token: this.props.state.token.tokenId,
       query: {
         filter: {},
         fields: {},
@@ -17,17 +21,37 @@ export default class TimelineBase extends Component {
     };
   }
   componentDidMount() {
+    //console.warn('propss--------', this.props.state);
+    // callApi('get', 'timeline/count').then(response => {
+    //   this.setState({count: response.data.count});
+    //   //console.warn('count------', this.state.count);
+    //   this.getData();
+    // });
+    this.getData();
+  }
+
+  getData = () => {
+    let headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${this.state.token}`,
+    };
     callApi(
       'get',
       `timeline/getPostData?params=${JSON.stringify(this.state.query)}`,
+      {},
+      headers,
     )
       .then(response => {
-        this.setState({AllPosts: response.data, filteredPost: response.data});
+        this.setState({
+          AllPosts: this.state.AllPosts.concat(response.data),
+          filteredPost: this.state.filteredPost.concat(response.data),
+        });
       })
       .catch(err => {
-        console.log(err);
+        console.log('error>>>>', err);
       });
-  }
+  };
+
   handleClick = pictureId => {
     this.props.navigation.navigate('SinglePost', {id: pictureId});
   };
@@ -39,10 +63,13 @@ export default class TimelineBase extends Component {
     this.props.navigation.openDrawer();
   };
   handleLike = (imageID, Likes) => {
-    //console.warn();
-    let imageData = {imageId: imageID, userId: this.props.state.user._id};
+    let imageData = {imageId: imageID, userId: this.props.state.userInfo._id};
     if (!includes(Likes, imageData.userId)) {
-      callApi('post', 'timeline/Likes', imageData)
+      let headers = {
+        Accept: 'application/json',
+        Authorization: `Bearer ${this.state.token}`,
+      };
+      callApi('post', 'timeline/Likes', imageData, headers)
         .then(response => {
           this.setState({AllPosts: response.data, filteredPost: response.data});
         })

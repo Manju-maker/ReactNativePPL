@@ -8,8 +8,9 @@ export default class ProfileBase extends Component {
     super(props);
     this.state = {
       AllPosts: [],
+      token: this.props.state.token.tokenId,
       query: {
-        filter: {userId: this.props.state.user._id},
+        filter: {userId: this.props.state.userInfo._id},
         fields: {},
         option: {skip: 0, limit: 0, sort: {uploadTime: -1}},
       },
@@ -17,11 +18,15 @@ export default class ProfileBase extends Component {
   }
 
   componentDidMount() {
-    let {firstname, _id} = this.props.state.user;
-
+    let headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${this.state.token}`,
+    };
     callApi(
       'get',
       `timeline/getPostData?params=${JSON.stringify(this.state.query)}`,
+      {},
+      headers,
     )
       .then(response => {
         this.setState({AllPosts: response.data});
@@ -36,9 +41,13 @@ export default class ProfileBase extends Component {
   };
 
   handleLike = (imageID, Likes) => {
-    let imageData = {imageId: imageID, userId: this.props.state.user._id};
+    let imageData = {imageId: imageID, userId: this.props.state.userInfo._id};
     if (!includes(Likes, imageData.userId)) {
-      callApi('post', 'timeline/Likes', imageData)
+      let headers = {
+        Accept: 'application/json',
+        Authorization: `Bearer ${this.state.token}`,
+      };
+      callApi('post', 'timeline/Likes', imageData, headers)
         .then(response => {
           this.setState({AllPosts: response.data});
         })

@@ -14,14 +14,13 @@ import {Styles, color, centerText} from '../style';
 import LoginBase from './loginBase';
 import EmailIcon from 'react-native-vector-icons/Entypo';
 import PasswordIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-//import {setUser} from '../../Redux/actions';
+import {getImage} from '../../Utilities/customComponent';
 
 class Login extends LoginBase {
   render() {
     return (
       <ImageBackground
-        source={require('../images/nature.jpeg')}
+        source={getImage('backgroundImage')}
         style={Styles.backgroundImage}>
         <View style={Styles.parent}>
           <Text style={Styles.text}>Login Form</Text>

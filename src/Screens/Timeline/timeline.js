@@ -1,25 +1,18 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  Button,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  AsyncStorage,
-  ImageBackground,
-} from 'react-native';
+import {Text, View, ScrollView, Image, TouchableOpacity} from 'react-native';
+import moment from 'moment';
 import Icon from 'react-native-vector-icons/AntDesign';
 import UserIcon from 'react-native-vector-icons/Entypo';
-import ThreeVerticalIcon from 'react-native-vector-icons/Entypo';
 import {Styles, color, centerText} from '../style';
 import config from '../../Config/config';
 import {connect} from 'react-redux';
 import TimelineBase from './timelineBase';
 import CustomButton from '../../Utilities/customComponent';
+
+
 class Timeline extends TimelineBase {
   render() {
+    console.warn("User....",this.props.state)
     let buttonComponent = [
       {label: 'Oldest First', onClick: this.handleOldest},
       {label: 'Latest First', onClick: this.handleLatest},
@@ -27,7 +20,7 @@ class Timeline extends TimelineBase {
       {label: 'MostCommented', onClick: this.handleMostCommented},
     ];
     return (
-      <View style={[Styles.parent, {backgroundColor: color.lightBlue}]}>
+      <View style={[Styles.parent]}>
         <TouchableOpacity onPress={this.handleDrawer}>
           <Icon name="bars" size={40} color="black" />
         </TouchableOpacity>
@@ -44,12 +37,13 @@ class Timeline extends TimelineBase {
             return <CustomButton key={key} {...props} />;
           })}
         </View>
-        <ScrollView>
+        <ScrollView onScroll={this.onScroll}>
           {this.state.filteredPost.length > 0 &&
             this.state.filteredPost.map(post => {
               return (
                 <TouchableOpacity
-                  style={{marginBottom: 20}}
+                  activeOpacity={1}
+                  style={{marginBottom: 20,backgroundColor:color.navyBlue}}
                   onPress={() => this.handleClick(post._id)}>
                   <View style={{flexDirection: 'row', marginBottom: 10}}>
                     <UserIcon
@@ -61,28 +55,23 @@ class Timeline extends TimelineBase {
                     <Text style={[Styles.timelineText, {fontSize: 15}]}>
                       {post.email}
                     </Text>
+                    <Text
+                      style={{position: 'absolute', right: 5, fontSize: 10}}>
+                      {moment(post.uploadTime).format('MMMM Do YYYY h:mm:ss')}
+                    </Text>
                   </View>
                   <Image
                     source={{
                       uri: `${config.serverURL}/${post.imageupload}`,
                     }}
-                    style={[styles.timelineImageStyle]}
+                    style={[Styles.timelineImageStyle,{marginBottom:10}]}
                   />
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{flexDirection: 'row',marginBottom:10}}>
                     <TouchableOpacity
                       activeOpacity={0.5}
                       onPress={() => this.handleLike(post._id, post.likes)}
-                      style={{
-                        marginLeft: 10,
-                        backgroundColor: color.grey,
-                        borderBottomStartRadius: 20,
-                      }}>
-                      <Text
-                        style={{
-                          paddingHorizontal: 20,
-                          paddingVertical: 5,
-                          fontWeight: 'bold',
-                        }}>
+                      style={Styles.imageButtonStyle}>
+                      <Text style={Styles.imageButtonText}>
                         {post.likes.length}
                         Like
                       </Text>
@@ -95,17 +84,8 @@ class Timeline extends TimelineBase {
                           id: post._id,
                         })
                       }
-                      style={{
-                        marginLeft: 10,
-                        backgroundColor: color.grey,
-                        borderBottomStartRadius: 20,
-                      }}>
-                      <Text
-                        style={{
-                          paddingHorizontal: 20,
-                          paddingVertical: 5,
-                          fontWeight: 'bold',
-                        }}>
+                      style={Styles.imageButtonStyle}>
+                      <Text style={Styles.imageButtonText}>
                         {post.comment.length}
                         Comment
                       </Text>
@@ -119,36 +99,6 @@ class Timeline extends TimelineBase {
     );
   }
 }
-
-const styles = {
-  timelineText: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    fontFamily: 'Cochin',
-    textAlign: 'center',
-  },
-  imageData: {
-    backgroundColor: '#999BBA',
-    height: 100,
-    borderRadius: 40,
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  timelineImageStyle: {
-    borderWidth: 2,
-    borderColor: 'yellow',
-    width: Dimensions.get('window').width - 4,
-    height: Dimensions.get('window').height - 300,
-    resizeMode: 'cover',
-  },
-  // topButton: {
-  //   backgroundColor: 'black',
-  //   paddingHorizontal: 7,
-  //   borderColor: 'white',
-  //   borderWidth: 1,
-  // },
-  // topButtonText: {color: 'white', fontWeight: 'bold'},
-};
 
 let mapStateToProps = state => {
   return {state};

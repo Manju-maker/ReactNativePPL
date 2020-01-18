@@ -4,6 +4,12 @@ function checkField(field, data) {
   }
   return true;
 }
+function isEmptyPhoto(data) {
+  if (data === null) {
+    return 'please select an image';
+  }
+  return true;
+}
 
 function isValidEmail(email) {
   if (email === '') return 'email cannot be Empty';
@@ -33,7 +39,14 @@ function isValidLastname(username) {
   if (username.length < 1) return 'lastname length should be greater than 1';
   return true;
 }
-
+function isValidCategory(category) {
+  if (category === '') return 'category cannot be empty';
+  return true;
+}
+function isValidPhoto(photo) {
+  if (photo === null) return 'photo cannot be empty';
+  return true;
+}
 export {
   checkField,
   isValidEmail,
@@ -41,4 +54,7 @@ export {
   isValidFirstname,
   isValidLastname,
   isValidUsername,
+  isEmptyPhoto,
+  isValidCategory,
+  isValidPhoto,
 };

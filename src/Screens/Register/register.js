@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  Button,
-  ImageBackground,
-} from 'react-native';
+import {View, Text, TextInput, ImageBackground} from 'react-native';
 import {Styles, color, centerText} from '../style';
 import RegisterBase from './registerBase';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
@@ -15,15 +8,15 @@ import EmailIcon from 'react-native-vector-icons/Entypo';
 import PasswordIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FirstnameIcon from 'react-native-vector-icons/Entypo';
 import LastnameIcon from 'react-native-vector-icons/Entypo';
-
+import {getImage} from '../../Utilities/customComponent';
 export default class Register extends RegisterBase {
   render() {
     return (
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <ImageBackground
-          source={require('../images/nature.jpeg')}
-          style={Styles.backgroundImage}>
-          <View style={Styles.parent}>
+          source={getImage('backgroundImage')}
+          style={[Styles.backgroundImage]}>
+          <View style={[Styles.parent]}>
             <Text style={Styles.text}>Register Form</Text>
             <View style={[Styles.child, {alignItems: 'center'}]}>
               <UserIcon

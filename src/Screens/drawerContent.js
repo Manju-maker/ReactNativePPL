@@ -1,28 +1,51 @@
 import React, {Component} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
+import {StackActions, NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/AntDesign';
 import HomeIcon from 'react-native-vector-icons/Entypo';
-import {Styles} from './style';
+import {connect} from 'react-redux';
+import {Styles, color} from './style';
+import routhPath from './customComponent';
 
-export default class DrawerContent extends Component {
-  handleLogout = () => {
-    this.props.navigation.navigate('Logout');
-  };
-
+class DrawerContent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstname: this.props.state.userInfo.firstname,
+    };
+  }
   render() {
     return (
       <View style={[Styles.DrawerContent]}>
+      
+          <View
+           
+            style={{
+              backgroundColor: '#0095ff',
+              paddingVertical: 30,
+              borderBottomColor: 'grey',
+              borderBottomWidth: 0.5,
+              alignItems:"center"
+            }}>
+            <View style={{height:70,width:70,borderColor:"black",borderWidth:5,borderRadius:40}}>
+              <HomeIcon name="user" size={52} color="black" />
+            </View>
+             <Text>{this.state.firstname}</Text>
+             <TouchableOpacity style={{flexDirection:"row"}}  onPress={() => {
+              this.props.navigation.navigate('UserDetails');
+            }}>
+            <Icon name="edit" size={20} color="black" />
+            <Text>Edit Profile</Text>
+          </TouchableOpacity>
+          </View>
+         
+           
+       
+
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Timeline')}
+          onPress={() => routhPath('Timeline', this.props)}
           activeOpacity={0.7}
-          style={{
-            paddingLeft: 10,
-            paddingVertical: 10,
-            backgroundColor: '#9BBA',
-            borderBottomColor: 'grey',
-            borderBottomWidth: 0.5,
-            flexDirection: 'row',
-          }}>
+          style={Styles.drawerContentStyles}>
           <HomeIcon name="home" size={20} color="black" />
           <Text
             style={{marginLeft: 20, textAlign: 'center', fontWeight: 'bold'}}>
@@ -31,16 +54,9 @@ export default class DrawerContent extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Profile')}
+          onPress={() => routhPath('Profile', this.props)}
           activeOpacity={0.7}
-          style={{
-            paddingLeft: 10,
-            paddingVertical: 10,
-            backgroundColor: '#9BBA',
-            borderBottomColor: 'grey',
-            borderBottomWidth: 0.5,
-            flexDirection: 'row',
-          }}>
+          style={Styles.drawerContentStyles}>
           <Icon name="solution1" size={20} color="black" />
           <Text
             style={{marginLeft: 20, textAlign: 'center', fontWeight: 'bold'}}>
@@ -48,16 +64,9 @@ export default class DrawerContent extends Component {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('ImageUpload')}
+          onPress={() => routhPath('ImageUpload', this.props)}
           activeOpacity={0.7}
-          style={{
-            paddingLeft: 10,
-            paddingVertical: 10,
-            backgroundColor: '#9BBA',
-            borderBottomColor: 'grey',
-            borderBottomWidth: 0.5,
-            flexDirection: 'row',
-          }}>
+          style={Styles.drawerContentStyles}>
           <Icon name="camera" size={20} color="black" />
           <Text
             style={{marginLeft: 20, textAlign: 'center', fontWeight: 'bold'}}>
@@ -65,16 +74,9 @@ export default class DrawerContent extends Component {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={this.handleLogout}
+          onPress={() => routhPath('Logout', this.props)}
           activeOpacity={0.7}
-          style={{
-            paddingLeft: 10,
-            paddingVertical: 10,
-            backgroundColor: '#9BBA',
-            borderBottomColor: 'grey',
-            borderBottomWidth: 0.5,
-            flexDirection: 'row',
-          }}>
+          style={Styles.drawerContentStyles}>
           <Icon name="logout" size={20} color="black" />
           <View>
             <Text
@@ -91,3 +93,9 @@ export default class DrawerContent extends Component {
     );
   }
 }
+
+let mapStateToProps = state => {
+  return {state};
+};
+
+export default connect(mapStateToProps)(DrawerContent);

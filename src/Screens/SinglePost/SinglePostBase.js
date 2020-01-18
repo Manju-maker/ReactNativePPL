@@ -12,6 +12,7 @@ export default class SinglePostBase extends Component {
       currentPost: [],
       comment: '',
       commentData: [],
+      token: this.props.state.token.tokenId,
       query: {
         filter: {_id: this.props.navigation.state.params.id},
         field: {},
@@ -20,9 +21,15 @@ export default class SinglePostBase extends Component {
     };
   }
   componentDidMount() {
+    let headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${this.state.token}`,
+    };
     callApi(
       'get',
       `timeline/getPostData?params=${JSON.stringify(this.state.query)}`,
+      {},
+      headers,
     )
       .then(response => {
         console.log('response', response.data);
@@ -41,10 +48,14 @@ export default class SinglePostBase extends Component {
     this.setState({comment: text});
   };
   handleLike = (imageID, Likes) => {
-    let imageData = {imageId: imageID, userId: this.props.state.user._id};
+    let imageData = {imageId: imageID, userId: this.props.state.userInfo._id};
     console.warn('Image data---', imageData);
     if (!includes(Likes, imageData.userId)) {
-      callApi('post', 'timeline/Likes', imageData)
+      let headers = {
+        Accept: 'application/json',
+        Authorization: `Bearer ${this.state.token}`,
+      };
+      callApi('post', 'timeline/Likes', imageData, headers)
         .then(response => {
           this.setState({
             like: response.data[0].likes,
@@ -56,12 +67,16 @@ export default class SinglePostBase extends Component {
     }
   };
   uploadComment = () => {
+    let headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${this.state.token}`,
+    };
     let commentData = {
       comment: this.state.comment,
       imageId: this.state.query.filter._id,
-      user: this.props.state.user.firstname,
+      user: this.props.state.userInfo.firstname,
     };
-    callApi('post', 'timeline/uploadComment', commentData)
+    callApi('post', 'timeline/uploadComment', commentData, headers)
       .then(response => {
         this.setState({commentData: response.data[0].comment, comment: ''});
       })

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import * as Images from './Images';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 // import {Styles, color} from '../Screens/style';
 export default class CustomComponent extends Component {
@@ -24,3 +25,7 @@ const Style = StyleSheet.create({
   },
   topButtonText: {color: 'white', fontWeight: 'bold'},
 });
+
+export const getImage = imageName => {
+  return Images[imageName];
+};

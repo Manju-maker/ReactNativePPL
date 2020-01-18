@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {AsyncStorage} from 'react-native';
 import {callApi} from '../../Utilities/utility';
 import Store from '../../Redux/store';
-import {setUser} from '../../Redux/actions';
+import {setUserInfo, setToken} from '../../Redux/actions';
 import {
   checkField,
   isValidEmail,
@@ -39,19 +39,25 @@ export default class LoginBase extends Component {
     if (this.checkAllManditoryFields()) {
       callApi('post', 'login', this.state)
         .then(response => {
-          console.log('response--', response.data);
+          console.warn('response--', response);
           if (response.data.length > 0) {
             if (!response.data[0].verify) {
               this.setState({errMessage: 'Verify your email first'});
             } else {
+              console.warn('res>>>', response.data);
               let userData = {
                 _id: response.data[0]._id,
                 firstname: response.data[0].firstname,
                 email: response.data[1].payload.user,
-                token: response.data[1].token,
+                lastname: response.data[0].lastname,
               };
-              AsyncStorage.setItem('tokenID', JSON.stringify(userData));
-              Store.dispatch(setUser(userData));
+              let token = {tokenId: response.data[1].token};
+
+              AsyncStorage.setItem('tokenID', JSON.stringify(token));
+              AsyncStorage.setItem('userInfo', JSON.stringify(userData));
+
+              Store.dispatch(setUserInfo(userData));
+              Store.dispatch(setToken(token));
               this.props.navigation.navigate('Timeline');
             }
           } else if (response.status === 204) {
