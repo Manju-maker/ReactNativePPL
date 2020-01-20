@@ -9,10 +9,8 @@ import {connect} from 'react-redux';
 import TimelineBase from './timelineBase';
 import CustomButton from '../../Utilities/customComponent';
 
-
 class Timeline extends TimelineBase {
   render() {
-    console.warn("User....",this.props.state)
     let buttonComponent = [
       {label: 'Oldest First', onClick: this.handleOldest},
       {label: 'Latest First', onClick: this.handleLatest},
@@ -43,7 +41,7 @@ class Timeline extends TimelineBase {
               return (
                 <TouchableOpacity
                   activeOpacity={1}
-                  style={{marginBottom: 20,backgroundColor:color.navyBlue}}
+                  style={{marginBottom: 20, backgroundColor: color.navyBlue}}
                   onPress={() => this.handleClick(post._id)}>
                   <View style={{flexDirection: 'row', marginBottom: 10}}>
                     <UserIcon
@@ -64,9 +62,9 @@ class Timeline extends TimelineBase {
                     source={{
                       uri: `${config.serverURL}/${post.imageupload}`,
                     }}
-                    style={[Styles.timelineImageStyle,{marginBottom:10}]}
+                    style={[Styles.timelineImageStyle, {marginBottom: 10}]}
                   />
-                  <View style={{flexDirection: 'row',marginBottom:10}}>
+                  <View style={{flexDirection: 'row', marginBottom: 10}}>
                     <TouchableOpacity
                       activeOpacity={0.5}
                       onPress={() => this.handleLike(post._id, post.likes)}
